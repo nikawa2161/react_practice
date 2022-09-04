@@ -1,32 +1,26 @@
 import { ChangeEvent, FC, useCallback, useState } from 'react';
 import '../App.css';
 import { MemoList } from "./MemoList"
+import { useMemoList } from '../hooks/useMemoList';
+import { string } from 'yargs';
 
 // react v.18 型定義FCでOK。暗黙的にchildren追加。
 export const App: FC = () => {
+  const { memos, addMemo, deleteMemo } = useMemoList();
   // stateはgenerics
   const [text, setText] = useState<string>("");
-  const [memos, setMemos] = useState<string[]>([]);
 
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   }
 
   const onClickAdd = () => {
-    // 現在のメモリストの配列生成
-    const newMemos = [...memos];
-    newMemos.push(text);
-    setMemos(newMemos);
+    addMemo(text);
     setText("");
   }
-
-  // 関数再生成でのレンダリング防止
-  // voidでreturnの記述がないことを明示。記述しなくても自動的にvoidになる。
   const onClickDelete = useCallback((index: number): void => {
-    const newMemos = [...memos];
-    newMemos.splice(index, 1);
-    setMemos(newMemos);
-  },[memos])
+    deleteMemo(index);
+  },[deleteMemo])
 
   return (
     <div className="App">
