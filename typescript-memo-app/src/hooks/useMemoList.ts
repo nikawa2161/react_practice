@@ -1,22 +1,20 @@
-import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addPost, deletePost } from "../reducers/Memos";
 
 export const useMemoList = () => {
-  const [memos, setMemos] = useState<string[]>([]);
 
-  const addMemo = useCallback((text: string) => {
-    // 現在のメモリストの配列生成
-    const newMemos = [...memos];
-    newMemos.push(text);
-    setMemos(newMemos);
-  },[memos]);
+  const dispatch = useDispatch();
 
-  const deleteMemo = useCallback(
+  const addMemo = (text: string) => {
+    dispatch(
+      addPost(text)
+    );
+  };
+
+  const deleteMemo = 
     (index: number): void => {
-      const newMemos = [...memos];
-      newMemos.splice(index, 1);
-      setMemos(newMemos);
-    },[memos]
-  );
+      dispatch(deletePost(index));
+    };
 
-  return { memos, addMemo, deleteMemo };
+  return { addMemo, deleteMemo };
 }
