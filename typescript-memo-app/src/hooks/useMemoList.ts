@@ -11,8 +11,7 @@ export const useMemoList = () => {
     );
   };
 
-  const deleteMemo = 
-    (index: number): void => {
+  const deleteMemo = (index: number): void => {
       dispatch(deletePost(index));
     };
 
